@@ -22,7 +22,7 @@ add the following to **application/bundles.php**
 ## What's new in 2.0.0?
 1. eloquent 2 / Laravel 3.1 support
 2. removed temporary attributes
-3. overridable **onSave** function
+3. overridable **on_save** function
 
 ### If something is broken...
 * Aware 2.0.0 only supports Laravel 3.1, if you're using Laravel <= 3.0 download [version 1.2](https://github.com/crabideau5691/aware/tags)
@@ -34,7 +34,7 @@ add the following to **application/bundles.php**
 * [Validation](#validation)
 * [Retrieving Errors](#errors)
 * [Overriding Validation](#override)
-* [onSave](#onsave)
+* [on_save](#onsave)
 * [Custom Error Messages](#messages)
 * [Custom Validation Rules](#rules)
 
@@ -108,14 +108,14 @@ An array that is **not** empty will override the rules or messages specified by 
 **note:** the default value for `$rules` and `$messages` is `array()`, if you pass an `array()` nothing will be overriden
 
 <a name="onsave"></a>
-## onSave
+## on_save
 
-Aware provides a convenient method for performing actions when either `$model->save()` is called. For example, use `onSave` to automatically hash a users password:
+Aware provides a convenient method for performing actions when either `$model->save()` is called. For example, use `on_save` to automatically hash a users password:
 
 ```php
 class User extends Aware {
 
-  public function onSave()
+  public function on_save()
   {
     // if there's a new password, hash it
     if($this->changed('password'))
@@ -129,13 +129,13 @@ class User extends Aware {
 }
 ```
 
-Notice that `onSave` returns a boolean. If you would like to halt `save`, return false.
+Notice that `on_save` returns a boolean. If you would like to halt `save`, return false.
 
-**Note:** `force_save()` has it's own `onForceSave()` method, which behaves just like `onSave`.
+**Note:** `force_save()` has it's own `on_force_save()` method, which behaves just like `on_save`.
 
-### Overriding onSave
+### Overriding on_save
 
-Just like, `$rules` and `$messages`, `onSave` can be overridden at call time. Simply pass a closure to the save function.
+Just like, `$rules` and `$messages`, `on_save` can be overridden at call time. Simply pass a closure to the save function.
 
 ```
 $user-save(array(), array(), function ($model) {

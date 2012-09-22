@@ -69,7 +69,7 @@ abstract class Aware extends Eloquent
       {
         // and only include dirty fields
         $data = $this->get_dirty();
-        
+
         // so just validate the fields that are being updated
         $rules = array_intersect_key($rules, $data);
       }
@@ -119,7 +119,7 @@ abstract class Aware extends Eloquent
   }
 
   /**
-   * onSave
+   * on_save
    *  called evertime a model is saved - to halt the save, return false
    *
    * @return bool
