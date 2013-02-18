@@ -1,4 +1,4 @@
-<?php
+<?php namespace Awareness;
 
 use \Illuminate\Database\Eloquent;
 use \Illuminate\Support\Contracts\MessageProviderInterface;
