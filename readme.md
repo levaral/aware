@@ -10,8 +10,15 @@ Self validating models for Eloquent in L4
 ```
 { // composer.json
   ...
-  "required": {
-    "awareness/aware": "*"
-  }
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "http://github.com/awareness/aware"
+    }
+  ],
+  "require": {
+    "laravel/framework": "4.0.*",
+    "awareness/aware": "dev-master"
+  },
   ...
 }
