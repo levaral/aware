@@ -1,15 +1,15 @@
 <?php namespace Awareness;
 
-use \Illuminate\Database\Eloquent;
-use \Illuminate\Support\Contracts\MessageProviderInterface;
-use \Illuminate\Support\MessageBag;
-use \Illuminate\Validation;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Contracts\MessageProviderInterface;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Aware Models
  *    Self-validating Eloquent Models
  */
-abstract class Aware extends Eloquent\Model implements MessageProviderInterface
+abstract class Aware extends Model implements MessageProviderInterface
 {
 
     /**
