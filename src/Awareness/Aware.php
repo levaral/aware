@@ -139,15 +139,15 @@ abstract class Aware extends Model implements MessageProviderInterface
     /**
     * Save the model if it is valid
     *
-    * @param  array
-    * @param  array
-    * @param  closure
+    * @param array $rules
+    * @param array $messages
+    * @param closure $callback
     * @return bool
     */
-    public function save(array $rules = array(), array $messages = array(), array $onSave = null)
+    public function save(array $rules = array(), array $messages = array(), Closure $callback = null)
     {
         // evaluate onSave
-        $before = is_null($onSave) ? $this->onSave() : $onSave($this);
+        $before = is_null($callback) ? $this->onSave() : call_user_func($callback, $this);
 
         // check before & valid, then pass to parent
         return ($before && $this->isValid($rules, $messages)) ? parent::save() : false;
@@ -156,14 +156,15 @@ abstract class Aware extends Model implements MessageProviderInterface
     /**
     * Attempts to save model even if it doesn't validate
     *
-    * @param  array
-    * @param  array
+    * @param array $rules
+    * @param array $messages
+    * @param callable $callback
     * @return bool
     */
-    public function forceSave(array $rules = array(), array $messages = array(), array $onForceSave = null)
+    public function forceSave(array $rules = array(), array $messages = array(), Closure $callback = null)
     {
         // execute onForceSave
-        $before = is_null($onForceSave) ? $this->onForceSave() : $onForceSave($this);
+        $before = is_null($callback) ? $this->onForceSave() : call_user_func($callback, $this);
 
         // validate the model
         $this->isValid($rules, $messages);
