@@ -74,7 +74,7 @@ abstract class Aware extends Model implements MessageProviderInterface
     *
     * @return array
     */
-    public function getValidationInfo($rulesOverride = null, $messagesOverride = null)
+    public function getValidationInfo(array $rulesOverride = null, array $messagesOverride = null)
     {
         if ($this->exists) {
             $data = $this->getChanged();
@@ -97,7 +97,7 @@ abstract class Aware extends Model implements MessageProviderInterface
     * @param array $messages
     * @return bool
     */
-    public function isValid($rulesOverride = null, $messagesOverride = null)
+    public function isValid(array $rulesOverride = null, array $messagesOverride = null)
     {
         $valid = true;
         list($data, $rules, $messages) = $this->getValidationInfo($rulesOverride);
@@ -144,7 +144,7 @@ abstract class Aware extends Model implements MessageProviderInterface
     * @param  closure
     * @return bool
     */
-    public function save($rules = array(), $messages = array(), $onSave = null)
+    public function save(array $rules = array(), array $messages = array(), array $onSave = null)
     {
         // evaluate onSave
         $before = is_null($onSave) ? $this->onSave() : $onSave($this);
@@ -160,7 +160,7 @@ abstract class Aware extends Model implements MessageProviderInterface
     * @param  array
     * @return bool
     */
-    public function forceSave($rules = array(), $messages = array(), $onForceSave = null)
+    public function forceSave(array $rules = array(), array $messages = array(), array $onForceSave = null)
     {
         // execute onForceSave
         $before = is_null($onForceSave) ? $this->onForceSave() : $onForceSave($this);
