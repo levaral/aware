@@ -1,10 +1,15 @@
 {
     "name": "awareness/aware",
-    "description": "Eloquent Model Validation",
+    "type": "library",
+    "description": "Model validation for L4 Eloquent",
+    "keywords": ["aware", "database","eloquent", "laravel", "models", "orm", "sql", "validation"],
+    "homepage": "http://github.com/awareness/aware",
+    "license": "MIT",
     "authors": [
         {
             "name": "Colby Rabideau",
-            "email": "idontknow5691@gmail.com"
+            "email": "crabideau5691@gmail.com",
+            "homepage": "http://github.com/colbyr"
         }
     ],
     "require": {
