@@ -68,11 +68,21 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
         return $this->errors();
     }
 
+    /**
+     * Get an array of messages for the next save
+     *
+     * @return array
+     */
     public function getMessages()
     {
       return array_merge(static::$messages, $this->messages);
     }
 
+    /**
+     * Get an array of rules for the next save
+     *
+     * @return array
+     */
     public function getRules($data=null)
     {
       if ($data) {
@@ -83,19 +93,6 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
       } else {
         return array_merge(static::$rules, $this->rules);
       }
-    }
-
-    /**
-     * Returns rules and data that needs validating
-     *
-     * @return array
-     */
-    public function getValidationInfo()
-    {
-        $data = $this->getDirty();
-        return count($rules) > 0 ?
-            array($data, $rules, $this->getMessages()) :
-            array(null, null, null);
     }
 
     /**
@@ -132,35 +129,66 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
         return $valid;
     }
 
+    /**
+     * Clears the force-save flag
+     *
+     * @return Awareness\Aware
+     */
     public function clearForce()
     {
       $this->forceSave = false;
       return $this;
     }
 
+    /**
+     * Clears message & rule overrides
+     *
+     * @return Awareness\Aware
+     */
     public function clearOverrides()
     {
       $this->messages = null;
       $this->rules = null;
+      return $this;
     }
 
+    /**
+     * Perform next save without validating
+     *
+     * @return Awareness\Aware
+     */
     public function force()
     {
       $this->forceSave = true;
       return $this;
     }
 
-    public function saveForced()
+    /**
+     * Returns true if forced flag is set
+     *
+     * @return bool
+     */
+    public function isForced()
     {
       return $this->forceSave;
     }
 
+    /**
+     * Set message overrides for the next save
+     *
+     * @return Awareness\Aware
+     */
     public function overrideMessages($messages)
     {
       $this->messages = $messages;
       return $this;
     }
 
+    /**
+     * Set rule overrides for the next save
+     *
+     * @return Awareness\Aware
+     */
     public function overrideRules($rules)
     {
       $this->rulesOverrides = $rules;
