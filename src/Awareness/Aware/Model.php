@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
  * Aware Models
  *    Self-validating Eloquent Models
  */
-abstract class Aware extends Eloquent\Model implements MessageProviderInterface
+abstract class Model extends Eloquent\Model implements MessageProviderInterface
 {
 
     /**
@@ -17,10 +17,14 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
      *
      * @var Illuminate\Support\MessageBag
      */
-    protected
-      $errorBag,
-      $messages,
-      $rules;
+    protected $errorBag;
+
+    /**
+     * Temporary message overrides
+     *
+     * @var array
+     */
+    protected $message_overrides;
 
     /**
      * Aware Validation Messages
@@ -28,6 +32,13 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
      * @var array $messages
      */
     public static $messages = array();
+
+    /**
+     * Temporary rule overrides
+     *
+     * @var array
+     */
+    protected $rule_overrides;
 
     /**
      * Aware Validation Rules
@@ -42,7 +53,10 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
     public static function boot()
     {
       parent::boot();
-      static::observe(new Observer());
+
+      $class = get_class(new Observer);
+      static::registerModelEvent('saving', "$class@saving");
+      static::registerModelEvent('saved', "$class@saved");
     }
 
     /**
@@ -75,7 +89,7 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
      */
     public function getMessages()
     {
-      return array_merge(static::$messages, $this->messages);
+      return array_merge(static::$messages, $this->message_overrides);
     }
 
     /**
@@ -87,11 +101,11 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
     {
       if ($data) {
         return array_intersect_key(
-          array_merge(static::$rules, $this->rules),
+          array_merge(static::$rules, $this->rule_overrides),
           $data
         );
       } else {
-        return array_merge(static::$rules, $this->rules);
+        return array_merge(static::$rules, $this->rule_overrides);
       }
     }
 
@@ -147,8 +161,8 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
      */
     public function clearOverrides()
     {
-      $this->messages = null;
-      $this->rules = null;
+      $this->message_overrides = null;
+      $this->rule_overrides = null;
       return $this;
     }
 
@@ -180,7 +194,7 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
      */
     public function overrideMessages($messages)
     {
-      $this->messages = $messages;
+      $this->message_overrides = $messages;
       return $this;
     }
 
@@ -191,7 +205,7 @@ abstract class Aware extends Eloquent\Model implements MessageProviderInterface
      */
     public function overrideRules($rules)
     {
-      $this->rulesOverrides = $rules;
+      $this->rule_overrides = $rules;
       return $this;
     }
 
