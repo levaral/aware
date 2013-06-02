@@ -22,7 +22,7 @@ Self validating models for Eloquent in L4
 
 Create a model with validation rules:
 
-```
+```php
 <?php
 
 use Awareness\Aware\Model;
@@ -34,12 +34,11 @@ class User extends Model {
   );
 
 }
-
 ```
 
 Try to save it:
 
-```
+```php
 $user = new User();
 $user->save(); // returns false
 
@@ -49,7 +48,7 @@ $user->save(); // saves then returns true!
 
 Save without validating:
 
-```
+```php
 $user = new User();
 $user->force()->save();
 ```
