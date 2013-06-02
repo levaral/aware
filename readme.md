@@ -16,6 +16,7 @@ Self validating models for Eloquent in L4
   },
   ...
 }
+```
 
 ## Usage
 
