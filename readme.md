@@ -16,3 +16,39 @@ Self validating models for Eloquent in L4
   },
   ...
 }
+
+## Usage
+
+Create a model with validation rules:
+
+```
+<?php
+
+use Awareness\Aware\Model;
+
+class User extends Model {
+
+  public static $rules = array(
+    'name' => 'required'
+  );
+
+}
+
+```
+
+Try to save it:
+
+```
+$user = new User();
+$user->save(); // returns false
+
+$user->name = 'Colby';
+$user->save(); // saves then returns true!
+```
+
+Save without validating:
+
+```
+$user = new User();
+$user->force()->save();
+```
