@@ -8,9 +8,9 @@ class Observer {
    * @param  Awareness\Aware
    * @return bool
    */
-  public function saving(Awareness\Aware $model)
+  public function saving(Model $model)
   {
-    if (!$model->saveForced()) {
+    if ($model->isForced()) {
       $model->isValid();
       return true;
     } else {

@@ -89,7 +89,10 @@ abstract class Model extends Eloquent\Model implements MessageProviderInterface
      */
     public function getMessages()
     {
-      return array_merge(static::$messages, $this->message_overrides);
+      return array_merge(
+        static::$messages,
+        $this->message_overrides ?: array()
+      );
     }
 
     /**
@@ -99,14 +102,11 @@ abstract class Model extends Eloquent\Model implements MessageProviderInterface
      */
     public function getRules($data=null)
     {
-      if ($data) {
-        return array_intersect_key(
-          array_merge(static::$rules, $this->rule_overrides),
-          $data
-        );
-      } else {
-        return array_merge(static::$rules, $this->rule_overrides);
-      }
+      $rules = array_merge(
+        static::$rules,
+        $this->rule_overrides ?: array()
+      );
+      return $data ? array_intersect_key($rules, $data) : $rules;
     }
 
     /**
@@ -119,28 +119,28 @@ abstract class Model extends Eloquent\Model implements MessageProviderInterface
      */
     public function isValid()
     {
-        $valid = true;
-        $data = $this->getDirty();
-        $rules = $this->exists ?
-          $this->getRules($data) :
-          $this->getRules();
+      $valid = true;
+      $data = $this->getDirty();
+      $rules = $this->exists ?
+        $this->getRules($data) :
+        $this->getRules();
 
-        if ($rules) {
-            $validator = Validator::make(
-              $data,
-              $rules,
-              $this->getMessages()
-            );
-            $valid = $validator->passes();
-        }
+      if ($rules) {
+        $validator = Validator::make(
+          $data,
+          $rules,
+          $this->getMessages()
+        );
+        $valid = $validator->passes();
+      }
 
-        if (!$valid) {
-            $this->errorBag = $validator->errors();
-        } elseif ($this->errorBag && $this->errorBag->any()) {
-            $this->errorBag = new MessageBag();
-        }
+      if (!$valid) {
+        $this->errorBag = $validator->errors();
+      } elseif ($this->errorBag && $this->errorBag->any()) {
+        $this->errorBag = new MessageBag();
+      }
 
-        return $valid;
+      return $valid;
     }
 
     /**
