@@ -26,9 +26,7 @@ class Observer {
    */
   public function saved($model)
   {
-    $model->clearForce()
-      ->overrideMessages()
-      ->overrideRules();
+    $model->clearForce()->clearOverrides();
   }
 
 }
